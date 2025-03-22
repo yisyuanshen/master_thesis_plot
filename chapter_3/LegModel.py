@@ -59,7 +59,7 @@ class LegModel:
         linewidth = 1.5
         
         # Axis
-        x_axis = patches.FancyArrowPatch([-0.12, 0], [0.18, 0], color='silver', linewidth=2, arrowstyle='-|>', mutation_scale=15)
+        x_axis = patches.FancyArrowPatch([-0.15, 0], [0.19, 0], color='silver', linewidth=2, arrowstyle='-|>', mutation_scale=15)
         y_axis = patches.FancyArrowPatch([0, -0.21], [0, 0.13], color='silver', linewidth=2, arrowstyle='-|>', mutation_scale=15)
         
         # Joints
@@ -286,11 +286,11 @@ class LegModel:
         
         
         ax.set_aspect('equal')
-        ax.set_xlim(-0.13, 0.19)
+        ax.set_xlim(-0.16, 0.20)
         ax.set_ylim(-0.22, 0.14)
         ax.set_xlabel('X (m)')
         ax.set_ylabel('Y (m)')
-        ax.set_title('Leg Model')
+        ax.set_title('Parameter Definitions of the Leg-Wheel Mechanism')
         
         plt.xticks(np.arange(-2, 4, 1)/20, fontsize=12)
         plt.yticks(np.arange(-4, 3, 1)/20, fontsize=12)
