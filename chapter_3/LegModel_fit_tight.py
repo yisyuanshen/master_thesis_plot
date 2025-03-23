@@ -148,7 +148,7 @@ def main():
     }
     
     # Create figure with a GridSpec layout
-    fig = plt.figure(figsize=(9, 6))
+    fig = plt.figure(figsize=(10, 6))
     gs = fig.add_gridspec(2, 1, height_ratios=[1, 0.8], hspace=0)
     
     # Top section: 1x5 subplots
@@ -196,7 +196,7 @@ def main():
     
     ax_bottom.set_xlabel(r'$\theta$ (deg)')
     ax_bottom.set_ylabel(r'Distance (m)')
-    ax_bottom.set_title(r'Distance to Origin ($O$)', pad=10)
+    ax_bottom.set_title(r'Distance to Origin (O)', pad=10)
     ax_bottom.title.set_position([0.5, 1.15])
     ax_bottom.grid(True)
     # Set y-axis major ticks with a spacing of 0.05
@@ -204,8 +204,8 @@ def main():
     ax_bottom.legend()
     
     # Adjust overall figure layout
-    fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    fig.tight_layout()
+    fig.subplots_adjust(left=0.07, right=0.99, top=1.03, bottom=0.1)
+    # fig.tight_layout()
     fig.canvas.draw()
     
     # Adjust top subplots to align with the bottom subplot’s horizontal span
