@@ -34,6 +34,8 @@ class DataLoader:
         
         self.odom_pos_x = self.df_robot['odom_pos_x']
         self.odom_pos_z = self.df_robot['odom_pos_z']
+        self.odom_pos_x = self.low_pass_filter(self.odom_pos_x)
+        self.odom_pos_z = self.low_pass_filter(self.odom_pos_z)
         
         self.odom_vel_x = self.df_robot['odom_vel_x']
         self.odom_vel_z = self.df_robot['odom_vel_z']
@@ -93,6 +95,9 @@ class DataLoader:
         self.vicon_roll = self.df_vicon['vicon_roll']
         self.vicon_pitch = self.df_vicon['vicon_pitch']
         
+        self.vicon_roll_rate = np.diff(self.low_pass_filter(self.vicon_roll))*1000
+        self.vicon_pitch_rate = np.diff(self.low_pass_filter(self.vicon_pitch))*1000
+        
         self.vicon_force_x = np.array([self.df_vicon['Fx_1'], self.df_vicon['Fx_4'], self.df_vicon['Fx_3'], self.df_vicon['Fx_2']])
         self.vicon_force_z = np.array([self.df_vicon['Fz_1'], self.df_vicon['Fz_4'], self.df_vicon['Fz_3'], self.df_vicon['Fz_2']])
         self.vicon_force_x = self.low_pass_filter(self.vicon_force_x)
@@ -104,7 +109,10 @@ class DataLoader:
         
         # self.vicon_pos_z -= line_fit
         self.vicon_pos_z -= self.vicon_pos_z.iloc[0]
-        self.vicon_pos_z += self.odom_pos_z.iloc[0]
+        self.vicon_pos_z += self.odom_pos_z[0]
+                
+        self.vicon_vel_x = np.diff(self.low_pass_filter(self.vicon_pos_x))*1000
+        self.vicon_vel_z = np.diff(self.low_pass_filter(self.vicon_pos_z))*1000
     
     
     def load_sim_force_data(self, file_path, start_idx=0, end_idx=-1, trigger_idx=0):

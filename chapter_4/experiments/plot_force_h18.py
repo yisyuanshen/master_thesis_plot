@@ -126,7 +126,7 @@ for i in range(2):
         axs[i, j].set_ylim([20, 100])
         axs[i, j].set_yticks(np.arange(20, 101, 20))
         # axs[i, j].legend(loc='upper right', fontsize=18)
-        ax.set_xticks(np.arange(0, 8.1, 2))
+        axs[i, j].set_xticks(np.arange(0, 8.1, 2))
         axs[i, j].grid(True)
 
 plt.tight_layout(rect=[0, 0.09, 1, 1])
