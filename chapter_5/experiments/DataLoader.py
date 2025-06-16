@@ -45,6 +45,9 @@ class DataLoader:
         self.sim_pos_x = self.df_robot['sim_pos_x']
         self.sim_pos_z = self.df_robot['sim_pos_z']
         
+        self.sim_vel_x = np.diff(self.low_pass_filter(self.sim_pos_x))*1000
+        self.sim_vel_z = np.diff(self.low_pass_filter(self.sim_pos_z))*1000
+        
         imu_qx = self.df_robot['imu_orien_x']
         imu_qy = self.df_robot['imu_orien_y']
         imu_qz = self.df_robot['imu_orien_z']

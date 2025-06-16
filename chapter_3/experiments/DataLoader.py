@@ -12,6 +12,9 @@ class DataLoader:
         self.cutoff_freq = 50
         self.sim = sim
         self.trigger_idx = trigger_idx
+        
+        self.legmodel = LegModel(sim=self.sim)
+        
     
     def load_robot_data(self, file_path, start_idx=0, end_idx=-1):
         self.df_robot = pd.read_csv(file_path).iloc[start_idx:end_idx, :]
@@ -55,25 +58,23 @@ class DataLoader:
         
         self.imu_acc_x = self.df_robot['imu_lin_acc_x']
         self.imu_acc_z = self.df_robot['imu_lin_acc_z']
-        
-        legmodel = LegModel(sim=self.sim)
-        
+                
         state_leg_z = []
         for i in range(4):
-            legmodel.contact_map(self.state_theta[i], self.state_beta[i])
-            state_leg_z.append(legmodel.contact_p[:, 1])
+            self.legmodel.contact_map(self.state_theta[i], self.state_beta[i])
+            state_leg_z.append(self.legmodel.contact_p[:, 1])
         self.state_leg_z = np.array(state_leg_z)
         
         cmd_leg_z = []
         for i in range(4):
-            legmodel.contact_map(self.state_theta[i], self.state_beta[i])
-            cmd_leg_z.append(legmodel.contact_p[:, 1])
+            self.legmodel.contact_map(self.state_theta[i], self.state_beta[i])
+            cmd_leg_z.append(self.legmodel.contact_p[:, 1])
         self.cmd_leg_z = np.array(cmd_leg_z)
         
         state_rim = []
         for i in range(4):
-            legmodel.contact_map(self.state_theta[i], self.state_beta[i])
-            state_rim.append(legmodel.rim)
+            self.legmodel.contact_map(self.state_theta[i], self.state_beta[i])
+            state_rim.append(self.legmodel.rim)
         self.state_rim = np.array(state_rim)
     
     
