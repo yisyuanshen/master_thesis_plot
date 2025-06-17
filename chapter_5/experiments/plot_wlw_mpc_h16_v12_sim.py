@@ -15,42 +15,42 @@ plt.rcParams.update({
 odom = True
 
 # === Data Loading ===
-loader_o = DataLoader(sim=False)
-loader_c = DataLoader(sim=False)
+loader_o = DataLoader(sim=True)
+loader_c = DataLoader(sim=True)
 
 # Data file paths (latest selection)
-robot_file_paths_o = '0617/0617_trot_h20_v45_open.csv'
-vicon_file_paths_o = '0617/trot_h20_v45_open.csv'
+robot_file_paths_o = 'data/wlw_h16_v12_open.csv'
+sim_force_file_paths_o = 'data/wlw_h16_v12_open_force.csv'
 
-robot_file_paths_c = '0617/0617_trot_h20_v45_closed.csv'
-vicon_file_paths_c = '0617/trot_h20_v45_closed.csv'
+robot_file_paths_c = 'data/walk_h25_v15_closed.csv'
+sim_force_file_paths_c = 'data/walk_h25_v15_closed_force.csv'
 
-start_idx = 3000
-end_idx = 9000
+start_idx = 4000
+end_idx = 21000
 
 loader_o.trigger_idx = None
 loader_o.load_robot_data(robot_file_paths_o, start_idx=start_idx, end_idx=end_idx)
-loader_o.load_vicon_data(vicon_file_paths_o, start_idx=start_idx, end_idx=end_idx)
+loader_o.load_sim_force_data(sim_force_file_paths_o, start_idx=start_idx, end_idx=end_idx)
 
 loader_c.trigger_idx = None
 loader_c.load_robot_data(robot_file_paths_c, start_idx=start_idx, end_idx=end_idx)
-loader_c.load_vicon_data(vicon_file_paths_c, start_idx=start_idx, end_idx=end_idx)
+loader_c.load_sim_force_data(sim_force_file_paths_c, start_idx=start_idx, end_idx=end_idx)
 
 
 # === Force Filtering ===
-loader_o.vicon_force_z = np.where(loader_o.vicon_force_z >= 0, 0, loader_o.vicon_force_z)
+loader_o.sim_force_z = np.where(loader_o.sim_force_z >= 0, 0, loader_o.sim_force_z)
 loader_o.state_force_z = np.where(loader_o.state_force_z <= 0, 0, loader_o.state_force_z)
-loader_o.state_force_z = np.where(loader_o.vicon_force_z > -2, 0, loader_o.state_force_z)
-loader_o.state_force_x = np.where(((loader_o.vicon_force_x < 2) & (loader_o.vicon_force_x > -2)), 0, loader_o.state_force_x)
+loader_o.state_force_z = np.where(loader_o.sim_force_z > -2, 0, loader_o.state_force_z)
+loader_o.state_force_x = np.where(((loader_o.sim_force_x < 2) & (loader_o.sim_force_x > -2)), 0, loader_o.state_force_x)
 
-loader_c.vicon_force_z = np.where(loader_c.vicon_force_z >= 0, 0, loader_c.vicon_force_z)
+loader_c.sim_force_z = np.where(loader_c.sim_force_z >= 0, 0, loader_c.sim_force_z)
 loader_c.state_force_z = np.where(loader_c.state_force_z <= 0, 0, loader_c.state_force_z)
-loader_c.state_force_z = np.where(loader_c.vicon_force_z > -2, 0, loader_c.state_force_z)
-loader_c.state_force_x = np.where(((loader_c.vicon_force_x < 2) & (loader_c.vicon_force_x > -2)), 0, loader_c.state_force_x)
+loader_c.state_force_z = np.where(loader_c.sim_force_z > -2, 0, loader_c.state_force_z)
+loader_c.state_force_x = np.where(((loader_c.sim_force_x < 2) & (loader_c.sim_force_x > -2)), 0, loader_c.state_force_x)
 
 # === Time Axis ===
 sample_rate = 1000  # Hz, change if different
-time_vicon = np.arange(loader_o.df_vicon.shape[0]) / sample_rate
+time_sim = np.arange(loader_o.df_sim_force.shape[0]) / sample_rate
 time_robot = np.arange(loader_o.df_robot.shape[0]) / sample_rate
 
 # === Plotting ===
@@ -63,8 +63,8 @@ if odom:
     ax.plot(time_robot, loader_o.odom_pos_x, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_pos_x, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon, loader_o.vicon_pos_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon, loader_c.vicon_pos_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim, loader_o.sim_pos_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim, loader_c.sim_pos_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Position X}', fontsize=18)
 # if odom:
@@ -81,8 +81,8 @@ if odom:
     ax.plot(time_robot, loader_o.odom_pos_z, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_pos_z, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon, loader_o.vicon_pos_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon, loader_c.vicon_pos_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim, loader_o.sim_pos_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim, loader_c.sim_pos_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Position Z}', fontsize=18)
 # if odom:
@@ -99,8 +99,8 @@ if odom:
     ax.plot(time_robot, loader_o.odom_vel_x, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_vel_x, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon[:-1], loader_o.vicon_vel_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon[:-1], loader_c.vicon_vel_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_o.sim_vel_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_c.sim_vel_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
     
 ax.set_title(r'\textbf{Velocity X}', fontsize=18)
 # if odom:
@@ -117,8 +117,8 @@ if odom:
     ax.plot(time_robot, loader_o.odom_vel_z, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_vel_z, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon[:-1], loader_o.vicon_vel_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon[:-1], loader_c.vicon_vel_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_o.sim_vel_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_c.sim_vel_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Velocity Z}', fontsize=18)
 # if odom:
@@ -135,8 +135,8 @@ if odom:
     ax.plot(time_robot, loader_o.imu_roll, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.imu_roll, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon, loader_o.vicon_roll, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon, loader_c.vicon_roll, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim, loader_o.imu_roll, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim, loader_c.imu_roll, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll}', fontsize=18)
 # if odom:
@@ -153,8 +153,8 @@ if odom:
     ax.plot(time_robot, loader_o.imu_pitch, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.imu_pitch, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon, loader_o.vicon_pitch, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon, loader_c.vicon_pitch, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim, loader_o.imu_pitch, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim, loader_c.imu_pitch, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Pitch}', fontsize=18)
 # if odom:
@@ -171,8 +171,8 @@ if odom:
     ax.plot(time_robot[:-1], loader_o.imu_roll_rate, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot[:-1], loader_c.imu_roll_rate, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon[:-1], loader_o.vicon_roll_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon[:-1], loader_c.vicon_roll_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_o.imu_roll_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_c.imu_roll_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll Rate}', fontsize=18)
 # if odom:
@@ -189,8 +189,8 @@ if odom:
     ax.plot(time_robot[:-1], loader_o.imu_pitch_rate, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot[:-1], loader_c.imu_pitch_rate, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_vicon[:-1], loader_o.vicon_pitch_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_vicon[:-1], loader_c.vicon_pitch_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_o.imu_pitch_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_sim[:-1], loader_c.imu_pitch_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Pitch Rate}', fontsize=18)
 # if odom:
@@ -208,7 +208,7 @@ for i in range(4):
         axs[i, j].set_xlabel(r'\textbf{Time (s)}', fontsize=16)
         axs[i, j].tick_params(axis='both', labelsize=16)
         # axs[i, j].legend(loc='upper right', fontsize=18)
-        # axs[i, j].set_xticks(np.arange(0, 25, 4))
+        axs[i, j].set_xticks(np.arange(0, 18, 3))
         axs[i, j].grid(True)
         
 plt.tight_layout(rect=[0, 0.06, 1, 1])

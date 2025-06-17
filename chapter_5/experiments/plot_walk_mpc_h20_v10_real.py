@@ -19,14 +19,15 @@ loader_o = DataLoader(sim=False)
 loader_c = DataLoader(sim=False)
 
 # Data file paths (latest selection)
-robot_file_paths_o = 'data/0612/0612_walk_open_h20_v10.csv'
-vicon_file_paths_o = 'data/0612/walk_open_h20_v10.csv'
+robot_file_paths_o = '0617/0617_walk_h25_v15_open.csv'
+vicon_file_paths_o = '0617/walk_h25_v15_open.csv'
 
-robot_file_paths_c = 'data/0612/0612_walk_closed_h20_v10.csv'
-vicon_file_paths_c = 'data/0612/walk_closed_h20_v10.csv'
+robot_file_paths_c = '0617/0617_walk_h25_v15_closed.csv'
+vicon_file_paths_c = '0617/walk_h25_v15_closed.csv'
 
 start_idx = 1000
-end_idx = 25000
+end_idx = 19000
+# end_idx = 26000
 
 loader_o.trigger_idx = None
 loader_o.load_robot_data(robot_file_paths_o, start_idx=start_idx, end_idx=end_idx)

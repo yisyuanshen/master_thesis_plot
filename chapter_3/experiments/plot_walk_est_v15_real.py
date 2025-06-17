@@ -16,14 +16,14 @@ plt.rcParams.update({
 loader = DataLoader(sim=False)
 
 # Data file paths (latest selection)
-robot_file_paths = 'data/0612/0612_walk_est_h20_v15.csv'
-vicon_file_paths = 'data/0612/walk_est_h20_v15.csv'
+robot_file_paths = '0617/0617_walk_h20_v15_open.csv'
+vicon_file_paths = '0617/walk_h20_v15_open.csv'
 
-robot_file_paths = 'data/0612/0612_walk_est_h25_v15_2.csv'
-vicon_file_paths = 'data/0612/walk_est_h25_v15_2.csv'
+# robot_file_paths = '0617/0617_walk_h25_v15_open.csv'
+# vicon_file_paths = '0617/walk_h25_v15_open.csv'
 
-start_idx = 4600
-end_idx = 7600
+start_idx = 11000
+end_idx = 13000
 loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
@@ -51,36 +51,36 @@ ax = axs[0, 0]
 ax.plot(time_vicon, -loader.vicon_force_x[0], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[0], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal Force on LF Module}', fontsize=18)
-ax.set_ylim([-100, 100])
-ax.set_yticks(np.arange(-100, 101, 50))
-ax.set_ylim([-150, 50])
-ax.set_yticks(np.arange(-150, 51, 50))
+# ax.set_ylim([-100, 100])
+# ax.set_yticks(np.arange(-100, 101, 50))
+# ax.set_ylim([-150, 50])
+# ax.set_yticks(np.arange(-150, 51, 50))
 
 # --- Right Hindlimb - Anterior-Posterior (X) ---
 ax = axs[0, 1]
-ax.plot(time_vicon, -loader.vicon_force_x[3], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
-ax.plot(time_robot, loader.state_force_x[3], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
+ax.plot(time_vicon, -loader.vicon_force_x[2], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
+ax.plot(time_robot, loader.state_force_x[2], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal Force on RH Module}', fontsize=18)
-ax.set_ylim([-100, 100])
-ax.set_yticks(np.arange(-100, 101, 50))
-ax.set_ylim([-150, 50])
-ax.set_yticks(np.arange(-150, 51, 50))
+# ax.set_ylim([-100, 100])
+# ax.set_yticks(np.arange(-100, 101, 50))
+# ax.set_ylim([-150, 50])
+# ax.set_yticks(np.arange(-150, 51, 50))
 
 # --- Left Forelimb - Vertical (Z) ---
 ax = axs[1, 0]
 ax.plot(time_vicon, -loader.vicon_force_z[0], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_z[0], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Vertical Force on LF Module}', fontsize=18)
-ax.set_ylim([-10, 160])
-ax.set_yticks(np.arange(0, 151, 50))
+# ax.set_ylim([-10, 160])
+# ax.set_yticks(np.arange(0, 151, 50))
 
 # --- Right Hindlimb - Vertical (Z) ---
 ax = axs[1, 1]
-ax.plot(time_vicon, -loader.vicon_force_z[3], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
-ax.plot(time_robot, loader.state_force_z[3], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
+ax.plot(time_vicon, -loader.vicon_force_z[2], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
+ax.plot(time_robot, loader.state_force_z[2], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Vertical Force on RH Module}', fontsize=18)
-ax.set_ylim([-10, 160])
-ax.set_yticks(np.arange(0, 151, 50))
+# ax.set_ylim([-10, 160])
+# ax.set_yticks(np.arange(0, 151, 50))
 
 # === Axis Formatting ===
 for i in range(2):
@@ -89,7 +89,7 @@ for i in range(2):
         axs[i, j].set_ylabel(r'\textbf{Force (N)}', fontsize=16)
         axs[i, j].tick_params(axis='both', labelsize=16)
         # axs[i, j].legend(loc='upper right', fontsize=18)
-        axs[i, j].set_xticks(np.arange(0, 3.1, 1))
+        # axs[i, j].set_xticks(np.arange(0, 3.1, 1))
         axs[i, j].grid(True)
         
 plt.tight_layout(rect=[0, 0.09, 1, 1])
@@ -101,6 +101,6 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # === Save as vector PDF (for LaTeX or printing) ===
-# plt.savefig('force_comparison_plot.pdf', format='pdf', bbox_inches='tight')
+# plt.savefig('walk_h20_v15_est.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()

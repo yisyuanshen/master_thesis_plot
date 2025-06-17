@@ -13,35 +13,29 @@ plt.rcParams.update({
 })
 
 # === Data Loading ===
-loader = DataLoader(sim=False)
+loader = DataLoader(sim=True)
 
 # Data file paths (latest selection)
-robot_file_paths = '0617/0617_walk_h20_v10_open.csv'
-vicon_file_paths = '0617/walk_h20_v10_open.csv'
+robot_file_paths = 'data/sim_wheel_est.csv'
+sim_force_file_paths = 'data/sim_force_plate_wheel.csv'
 
-robot_file_paths = '0617/0617_walk_h25_v10_open.csv'
-vicon_file_paths = '0617/walk_h25_v10_open.csv'
-
-start_idx = 14000
-end_idx = 18000
-start_idx = 14500
-end_idx = 18000
-
+start_idx = 0
+end_idx = 25000
 loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
-loader.load_vicon_data(vicon_file_paths, start_idx=start_idx, end_idx=end_idx)
+loader.load_sim_force_data(sim_force_file_paths, start_idx=start_idx, end_idx=end_idx)
 
 # === Force Filtering ===
-loader.vicon_force_z = np.where(loader.vicon_force_z >= 0, 0, loader.vicon_force_z)
-loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
-loader.state_force_z = np.where(loader.vicon_force_z > -2, 0, loader.state_force_z)
+# loader.sim_force_z = np.where(loader.sim_force_z >= 0, 0, loader.sim_force_z)
+# loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
+# loader.state_force_z = np.where(loader.sim_force_z > -2, 0, loader.state_force_z)
 
-loader.state_force_x = np.where(((loader.vicon_force_x < 2) & (loader.vicon_force_x > -2)), 0, loader.state_force_x)
+# loader.state_force_x = np.where(((loader.sim_force_x < 2) & (loader.sim_force_x > -2)), 0, loader.state_force_x)
 
 # === Time Axis ===
 sample_rate = 1000  # Hz, change if different
-time_vicon = np.arange(loader.df_vicon.shape[0]) / sample_rate
+time_sim = np.arange(loader.df_sim_force.shape[0]) / sample_rate
 time_robot = np.arange(loader.df_robot.shape[0]) / sample_rate
 
 # === Plotting ===
@@ -51,35 +45,35 @@ linewidth = 1.5
 
 # --- Left Forelimb - Anterior-Posterior (X) ---
 ax = axs[0, 0]
-ax.plot(time_vicon, -loader.vicon_force_x[0], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
+ax.plot(time_sim, loader.sim_force_x[0], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[0], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal Force on LF Module}', fontsize=18)
-# ax.set_ylim([-40, 40])
-# ax.set_yticks(np.arange(-40, 41, 20))
+ax.set_ylim([-50, 50])
+ax.set_yticks(np.arange(-50, 51, 25))
 
 # --- Right Hindlimb - Anterior-Posterior (X) ---
 ax = axs[0, 1]
-ax.plot(time_vicon, -loader.vicon_force_x[2], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
-ax.plot(time_robot, loader.state_force_x[2], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
+ax.plot(time_sim, loader.sim_force_x[3], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
+ax.plot(time_robot, loader.state_force_x[3], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal Force on RH Module}', fontsize=18)
-# ax.set_ylim([-40, 40])
-# ax.set_yticks(np.arange(-40, 41, 20))
+ax.set_ylim([-50, 50])
+ax.set_yticks(np.arange(-50, 51, 25))
 
 # --- Left Forelimb - Vertical (Z) ---
 ax = axs[1, 0]
-ax.plot(time_vicon, -loader.vicon_force_z[0], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
+ax.plot(time_sim, -loader.sim_force_z[0], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_z[0], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Vertical Force on LF Module}', fontsize=18)
-# ax.set_ylim([-10, 160])
-# ax.set_yticks(np.arange(0, 151, 50))
+ax.set_ylim([-10, 160])
+ax.set_yticks(np.arange(0, 151, 50))
 
 # --- Right Hindlimb - Vertical (Z) ---
 ax = axs[1, 1]
-ax.plot(time_vicon, -loader.vicon_force_z[2], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
-ax.plot(time_robot, loader.state_force_z[2], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
+ax.plot(time_sim, -loader.sim_force_z[3], label=r'Measured (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
+ax.plot(time_robot, loader.state_force_z[3], label=r'Estimated (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Vertical Force on RH Module}', fontsize=18)
-# ax.set_ylim([-10, 160])
-# ax.set_yticks(np.arange(0, 151, 50))
+ax.set_ylim([-10, 160])
+ax.set_yticks(np.arange(0, 151, 50))
 
 # === Axis Formatting ===
 for i in range(2):
@@ -100,6 +94,6 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # === Save as vector PDF (for LaTeX or printing) ===
-plt.savefig('walk_h25_v10_est.pdf', format='pdf', bbox_inches='tight')
+# plt.savefig('force_comparison_plot.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()

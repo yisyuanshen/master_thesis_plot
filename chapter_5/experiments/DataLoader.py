@@ -106,11 +106,11 @@ class DataLoader:
         self.vicon_force_x = self.low_pass_filter(self.vicon_force_x)
         self.vicon_force_z = self.low_pass_filter(self.vicon_force_z)
         
-        # model = LinearRegression()
-        # model.fit(self.vicon_pos_x.to_numpy().reshape(-1, 1), self.vicon_pos_z.to_numpy())
-        # line_fit = model.predict(self.vicon_pos_x.to_numpy().reshape(-1, 1))
+        model = LinearRegression()
+        model.fit(self.vicon_pos_x.to_numpy().reshape(-1, 1), self.vicon_pos_z.to_numpy())
+        line_fit = model.predict(self.vicon_pos_x.to_numpy().reshape(-1, 1))
         
-        # self.vicon_pos_z -= line_fit
+        self.vicon_pos_z -= line_fit
         self.vicon_pos_z -= self.vicon_pos_z.iloc[0]
         self.vicon_pos_z += self.odom_pos_z[0]
                 
