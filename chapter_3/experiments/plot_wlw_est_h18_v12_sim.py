@@ -16,14 +16,11 @@ plt.rcParams.update({
 loader = DataLoader(sim=True)
 loader.cutoff_freq = 30
 
-robot_file_paths = 'exp_data/sim/sim_walk_h20_v10_open.csv'
-sim_force_file_paths = 'exp_data/sim/sim_walk_h20_v10_open_force.csv'
+robot_file_paths = 'exp_data/sim/sim_wlw_h18_v12_open.csv'
+sim_force_file_paths = 'exp_data/sim/sim_wlw_h18_v12_open_force.csv'
 
-robot_file_paths = 'exp_data/sim/sim_walk_h25_v10_open.csv'
-sim_force_file_paths = 'exp_data/sim/sim_walk_h25_v10_open_force.csv'
-
-start_idx = 15500
-end_idx = 18000
+start_idx = 13000
+end_idx = 16000
 loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
@@ -34,7 +31,7 @@ loader.sim_force_z = np.where(loader.sim_force_z >= 0, 0, loader.sim_force_z)
 loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
 loader.state_force_z = np.where(loader.sim_force_z > -2, 0, loader.state_force_z)
 
-loader.state_force_x = np.where(((loader.sim_force_x < 2) & (loader.sim_force_x > -2)), 0, loader.state_force_x)
+loader.state_force_x = np.where(loader.state_force_z == 0, 0, loader.state_force_x)
 
 # Time
 sample_rate = 1000  # Hz, change if different
@@ -51,17 +48,15 @@ ax = axs[0, 0]
 ax.plot(time_sim, loader.sim_force_x[1], label=r'Measured GRF (Sim)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[1], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal GRF on Right Front Module}', fontsize=18)
-ax.set_ylim([-40, 40])
-ax.set_yticks(np.arange(-40, 41, 20))
-ax.set_ylim([-50, 50])
-ax.set_yticks(np.arange(-50, 51, 25))
+ax.set_ylim([-90, 30])
+ax.set_yticks(np.arange(-90, 31, 30))
 
 ax = axs[0, 1]
 ax.plot(time_sim, loader.sim_force_x[3], label=r'Measured GRF (Sim)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[3], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal GRF on Left Hind Module}', fontsize=18)
-ax.set_ylim([-30, 30])
-ax.set_yticks(np.arange(-30, 31, 15))
+ax.set_ylim([-30, 90])
+ax.set_yticks(np.arange(-30, 91, 30))
 
 ax = axs[1, 0]
 ax.plot(time_sim, -loader.sim_force_z[1], label=r'Measured GRF (Sim)', color=colors[0], linestyle='-', linewidth=linewidth)
@@ -84,7 +79,7 @@ for i in range(2):
         axs[i, j].set_ylabel(r'\textbf{Force (N)}', fontsize=16)
         axs[i, j].tick_params(axis='both', labelsize=16)
         # axs[i, j].legend(loc='upper right', fontsize=18)
-        axs[i, j].set_xticks(np.arange(0, 26, 5)/10)
+        axs[i, j].set_xticks(np.arange(0, 31, 5)/10)
         axs[i, j].grid(True)
         
 plt.tight_layout(rect=[0, 0.07, 1, 1])
@@ -96,6 +91,6 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # save
-# plt.savefig('.pdf', format='pdf', bbox_inches='tight')
+plt.savefig('sim_wlw_est_h18_v12_result.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
