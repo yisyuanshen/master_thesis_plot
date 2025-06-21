@@ -5,6 +5,7 @@ from scipy.signal import butter, filtfilt
 import ViconProcess
 
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 
 
 class DataLoader:
@@ -120,3 +121,39 @@ class DataLoader:
         b, a = butter(order, normal_cutoff, btype='low', analog=False)
         filtered_data = filtfilt(b, a, data, axis=-1)
         return filtered_data
+    
+    
+    def data_process(self):
+        if self.sim:
+            self.sim_force_z = np.where(self.sim_force_z >= 0, 0, self.sim_force_z)
+            self.state_force_z = np.where(self.state_force_z <= 0, 0, self.state_force_z)
+            self.state_force_z = np.where(self.sim_force_z > -2, 0, self.state_force_z)
+
+            self.state_force_x = np.where(self.state_force_z == 0, 0, self.state_force_x)
+        else:
+            self.vicon_force_z = np.where(self.vicon_force_z >= 0, 0, self.vicon_force_z)
+            self.state_force_z = np.where(self.state_force_z <= 0, 0, self.state_force_z)
+            self.state_force_z = np.where(self.vicon_force_z > -2, 0, self.state_force_z)
+
+            self.state_force_x = np.where(self.state_force_z == 0, 0, self.state_force_x)
+    
+    
+    def compute_rmse(self):
+        self.data_process()
+        
+        if self.sim:
+            rmse_x_rf = np.sqrt(mean_squared_error(self.state_force_x[1], self.sim_force_x[1]))
+            rmse_z_rf = np.sqrt(mean_squared_error(self.state_force_z[1], -self.sim_force_z[1]))
+
+            rmse_x_lh = np.sqrt(mean_squared_error(self.state_force_x[3], self.sim_force_x[3]))
+            rmse_z_lh = np.sqrt(mean_squared_error(self.state_force_z[3], -self.sim_force_z[3]))
+
+            print(f"RMSE: X = {((rmse_x_rf+rmse_x_lh)/2):.2f} N, Z = {((rmse_z_rf+rmse_z_lh)/2):.2f} N")
+        else:
+            rmse_x_rf = np.sqrt(mean_squared_error(self.state_force_x[1], -self.vicon_force_x[1]))
+            rmse_z_rf = np.sqrt(mean_squared_error(self.state_force_z[1], -self.vicon_force_z[1]))
+
+            rmse_x_lh = np.sqrt(mean_squared_error(self.state_force_x[3], -self.vicon_force_x[3]))
+            rmse_z_lh = np.sqrt(mean_squared_error(self.state_force_z[3], -self.vicon_force_z[3]))
+
+            print(f"RMSE: X = {((rmse_x_rf+rmse_x_lh)/2):.2f} N, Z = {((rmse_z_rf+rmse_z_lh)/2):.2f} N")

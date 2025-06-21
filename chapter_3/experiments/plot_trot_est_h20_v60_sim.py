@@ -27,11 +27,12 @@ loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
 loader.load_sim_force_data(sim_force_file_paths, start_idx=start_idx, end_idx=end_idx)
 
 # Data Process
-loader.sim_force_z = np.where(loader.sim_force_z >= 0, 0, loader.sim_force_z)
-loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
-loader.state_force_z = np.where(loader.sim_force_z > -2, 0, loader.state_force_z)
+loader.data_process()
+# loader.sim_force_z = np.where(loader.sim_force_z >= 0, 0, loader.sim_force_z)
+# loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
+# loader.state_force_z = np.where(loader.sim_force_z > -2, 0, loader.state_force_z)
 
-loader.state_force_x = np.where(loader.state_force_z == 0, 0, loader.state_force_x)
+# loader.state_force_x = np.where(loader.state_force_z == 0, 0, loader.state_force_x)
 
 # Time
 sample_rate = 1000  # Hz, change if different
@@ -91,6 +92,8 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # save
-plt.savefig('sim_trot_est_h20_v60_result.pdf', format='pdf', bbox_inches='tight')
+# plt.savefig('sim_trot_est_h20_v60_result.pdf', format='pdf', bbox_inches='tight')
 
-plt.show()
+# plt.show()
+
+loader.compute_rmse()
