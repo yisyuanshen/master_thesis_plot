@@ -18,8 +18,8 @@ odom = False
 loader_o = DataLoader(sim=False)
 loader_c = DataLoader(sim=False)
 
-loader_o.cutoff_freq = 10
-loader_c.cutoff_freq = 10
+loader_o.cutoff_freq = 5
+loader_c.cutoff_freq = 5
 
 robot_file_paths_o = 'exp_data/real/0617_walk_h25_v10_open.csv'
 vicon_file_paths_o = 'exp_data/real/0617_walk_h25_v10_open_vicon.csv'
@@ -125,11 +125,11 @@ else:
 
 ax.set_title(r'\textbf{Velocity Z}', fontsize=18)
 if odom:
-    ax.set_ylim([-0.25, 0.25])
-    ax.set_yticks(np.arange(-25, 26, 25)/100)
+    ax.set_ylim([-0.20, 0.20])
+    ax.set_yticks(np.arange(-20, 21, 20)/100)
 else:
-    ax.set_ylim([-0.25, 0.25])
-    ax.set_yticks(np.arange(-25, 26, 25)/100)
+    ax.set_ylim([-0.15, 0.15])
+    ax.set_yticks(np.arange(-15, 16, 15)/100)
 ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
 
 
@@ -143,8 +143,8 @@ else:
 
 ax.set_title(r'\textbf{Roll}', fontsize=18)
 if odom:
-    ax.set_ylim([-15, 15])
-    ax.set_yticks(np.arange(-15, 16, 15))
+    ax.set_ylim([-12, 12])
+    ax.set_yticks(np.arange(-12, 13, 12))
 else:
     ax.set_ylim([-10, 10])
     ax.set_yticks(np.arange(-10, 11, 10))
@@ -182,8 +182,8 @@ if odom:
     ax.set_ylim([-60, 60])
     ax.set_yticks(np.arange(-60, 61, 60))
 else:
-    ax.set_ylim([-70, 70])
-    ax.set_yticks(np.arange(-70, 71, 70))
+    ax.set_ylim([-60, 60])
+    ax.set_yticks(np.arange(-60, 61, 60))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 
@@ -200,8 +200,8 @@ if odom:
     ax.set_ylim([-80, 80])
     ax.set_yticks(np.arange(-80, 81, 80))
 else:
-    ax.set_ylim([-80, 80])
-    ax.set_yticks(np.arange(-80, 81, 80))
+    ax.set_ylim([-70, 70])
+    ax.set_yticks(np.arange(-70, 71, 70))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 
@@ -223,9 +223,9 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # save
-if odom:
-    plt.savefig('real_walk_odom_h25_v10_result.pdf', format='pdf', bbox_inches='tight')
-else:
-    plt.savefig('real_walk_vicon_h25_v10_result.pdf', format='pdf', bbox_inches='tight')
+# if odom:
+#     plt.savefig('real_walk_odom_h25_v10_result.pdf', format='pdf', bbox_inches='tight')
+# else:
+#     plt.savefig('real_walk_vicon_h25_v10_result.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()

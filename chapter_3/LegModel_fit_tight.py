@@ -183,16 +183,16 @@ def main():
     # Lower section: Plot distances to the origin vs. theta
     ax_bottom = fig.add_subplot(gs[1])
     joint_info = {
-        'H': ('H_l', 'red'),
-        'F': ('F_l', 'orange'),
-        'U': ('U_l', 'blue'),
-        'L': ('L_l', 'green'),
-        'G': ('G',   'purple')
+        'H': ('H_l', 'red', '-'),
+        'F': ('F_l', 'orange', '--'),
+        'U': ('U_l', 'blue', '-.'),
+        'L': ('L_l', 'green', ':'),
+        'G': ('G',   'purple', (0, (3, 3, 1, 3, 1, 3)))
     }
-    for joint, (attr, color) in joint_info.items():
+    for joint, (attr, color, style) in joint_info.items():
         traj = trajectories[attr]
         lengths = np.linalg.norm(traj, axis=1)
-        ax_bottom.plot(theta_vals_deg, lengths, label=joint, color=color)
+        ax_bottom.plot(theta_vals_deg, lengths, label=joint, color=color, linestyle=style)
     
     ax_bottom.set_xlabel(r'$\theta$ (deg)')
     ax_bottom.set_ylabel(r'Distance (m)')

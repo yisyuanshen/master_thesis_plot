@@ -92,8 +92,8 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # save
-# plt.savefig('sim_trot_est_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
+plt.savefig('sim_trot_est_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
 
-# plt.show()
+plt.show()
 
 loader.compute_rmse()

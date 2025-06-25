@@ -21,14 +21,14 @@ loader_c = DataLoader(sim=True)
 loader_o.cutoff_freq = 5
 loader_c.cutoff_freq = 5
 
-robot_file_paths_o = 'exp_data/sim/sim_walk_h20_v10_open.csv'
-sim_force_file_paths_o = 'exp_data/sim/sim_walk_h20_v10_open_force.csv'
+robot_file_paths_o = 'exp_data/sim/sim_wlw_h16_v12_open.csv'
+sim_force_file_paths_o = 'exp_data/sim/sim_wlw_h16_v12_open_force.csv'
 
-robot_file_paths_c = 'exp_data/sim/sim_walk_h20_v10_closed.csv'
-sim_force_file_paths_c = 'exp_data/sim/sim_walk_h20_v10_closed_force.csv'
+robot_file_paths_c = 'exp_data/sim/sim_wlw_h16_v12_closed.csv'
+sim_force_file_paths_c = 'exp_data/sim/sim_wlw_h16_v12_closed_force.csv'
 
-start_idx = 5500
-end_idx = 29500
+start_idx = 5250
+end_idx = 27750
 
 loader_o.trigger_idx = None
 loader_o.load_robot_data(robot_file_paths_o, start_idx=start_idx, end_idx=end_idx)
@@ -70,11 +70,11 @@ else:
 
 ax.set_title(r'\textbf{Position X}', fontsize=18)
 if odom:
-    ax.set_ylim([-0.4, 2.4])
-    ax.set_yticks(np.arange(0, 3, 1))
+    ax.set_ylim([-0.5, 3.5])
+    ax.set_yticks(np.arange(0, 31, 15)/10)
 else:
-    ax.set_ylim([-0.4, 2.4])
-    ax.set_yticks(np.arange(0, 21, 10)/10)
+    ax.set_ylim([-0.5, 3.5])
+    ax.set_yticks(np.arange(0, 31, 15)/10)
 ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
 
 
@@ -88,11 +88,11 @@ else:
 
 ax.set_title(r'\textbf{Position Z}', fontsize=18)
 if odom:
-    ax.set_ylim([0.192, 0.204])
-    ax.set_yticks(np.arange(192, 205, 4)/1000)
+    ax.set_ylim([0.148, 0.166])
+    ax.set_yticks(np.arange(148, 167, 6)/1000)
 else:
-    ax.set_ylim([0.190, 0.205])
-    ax.set_yticks(np.arange(190, 206, 5)/1000)
+    ax.set_ylim([0.148, 0.166])
+    ax.set_yticks(np.arange(148, 167, 6)/1000)
 ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
 
 
@@ -109,7 +109,7 @@ if odom:
     ax.set_ylim([-0.04, 0.24])
     ax.set_yticks(np.arange(0, 3, 1)/10)
 else:
-    ax.set_ylim([-0.04, 0.24])
+    ax.set_ylim([-0.02, 0.22])
     ax.set_yticks(np.arange(0, 3, 1)/10)
 ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
 
@@ -124,11 +124,11 @@ else:
 
 ax.set_title(r'\textbf{Velocity Z}', fontsize=18)
 if odom:
-    ax.set_ylim([-0.06, 0.06])
-    ax.set_yticks(np.arange(-6, 7, 6)/100)
+    ax.set_ylim([-0.05, 0.05])
+    ax.set_yticks(np.arange(-5, 6, 5)/100)
 else:
-    ax.set_ylim([-0.06, 0.06])
-    ax.set_yticks(np.arange(-6, 7, 6)/100)
+    ax.set_ylim([-0.05, 0.05])
+    ax.set_yticks(np.arange(-5, 6, 5)/100)
 ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
 
 
@@ -141,8 +141,8 @@ else:
     ax.plot(time_sim, loader_c.imu_roll, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll}', fontsize=18)
-ax.set_ylim([-2.5, 2.5])
-ax.set_yticks(np.arange(-25, 26, 25)/10)
+ax.set_ylim([-1.5, 1.5])
+ax.set_yticks(np.arange(-15, 16, 15)/10)
 ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
 
 
@@ -155,8 +155,8 @@ else:
     ax.plot(time_sim, loader_c.imu_pitch, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Pitch}', fontsize=18)
-ax.set_ylim([-2, 1])
-ax.set_yticks(np.arange(-2, 2, 1))
+ax.set_ylim([-1.5, 1.5])
+ax.set_yticks(np.arange(-15, 16, 15)/10)
 ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
 
 
@@ -169,8 +169,8 @@ else:
     ax.plot(time_sim[:-1], loader_c.imu_roll_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll Rate}', fontsize=18)
-ax.set_ylim([-18, 18])
-ax.set_yticks(np.arange(-18, 19, 18))
+ax.set_ylim([-12, 12])
+ax.set_yticks(np.arange(-12, 13, 12))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 
@@ -183,8 +183,8 @@ else:
     ax.plot(time_sim[:-1], loader_c.imu_pitch_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Pitch Rate}', fontsize=18)
-ax.set_ylim([-14, 14])
-ax.set_yticks(np.arange(-14, 15, 14))
+ax.set_ylim([-12, 12])
+ax.set_yticks(np.arange(-12, 13, 12))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 

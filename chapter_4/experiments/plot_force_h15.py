@@ -141,3 +141,45 @@ fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=3, frameon=True,
 # plt.savefig('.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
+
+
+
+# RMSE
+from sklearn.metrics import mean_squared_error
+
+def compute_rmse(true, pred):
+    return np.sqrt(mean_squared_error(true, pred))
+
+# state
+rmse_results = {'X': [], 'Z': []}
+
+for i in range(4):
+    rmse_z = compute_rmse(loader.cmd_force_z[i], loader.vicon_force_z[i])
+    rmse_results['Z'].append(rmse_z)
+
+    rmse_x = compute_rmse(loader.cmd_force_x[i], loader.vicon_force_x[i] if i in [0, 3] else -loader.vicon_force_x[i])
+    rmse_results['X'].append(rmse_x)
+
+print('\ncmd:')
+module_names = ['LF', 'RF', 'RH', 'LH']
+for i, name in enumerate(module_names):
+    print(f"[{name}] RMSE Z: {rmse_results['Z'][i]:.3f} N | RMSE X: {rmse_results['X'][i]:.3f} N")
+
+print(f'\nZ = {np.average(rmse_results['Z']):.2f}, X = {np.average(rmse_results['X']):.2f}')
+
+# state
+rmse_results = {'X': [], 'Z': []}
+
+for i in range(4):
+    rmse_z = compute_rmse(loader.state_force_z[i], -loader.vicon_force_z[i])
+    rmse_results['Z'].append(rmse_z)
+
+    rmse_x = compute_rmse(loader.state_force_x[i], loader.vicon_force_x[i])
+    rmse_results['X'].append(rmse_x)
+
+print('\nstate:')
+module_names = ['LF', 'RF', 'RH', 'LH']
+for i, name in enumerate(module_names):
+    print(f"[{name}] RMSE Z: {rmse_results['Z'][i]:.3f} N | RMSE X: {rmse_results['X'][i]:.3f} N")
+
+print(f'\nZ = {np.average(rmse_results['Z']):.2f}, X = {np.average(rmse_results['X']):.2f}')

@@ -28,7 +28,7 @@ loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
 loader.load_sim_force_data(sim_force_file_paths, start_idx=start_idx, end_idx=end_idx)
 
 # Data Process
-loader.state_force_z -= (0.68*9.81 - 6.41)
+loader.state_force_z -= (0.68*9.81-5.48)
 
 leg = LegModel_.LegModel()
 eta_array = np.array(list(zip(loader.state_theta[0], loader.state_beta[0])))
@@ -92,6 +92,25 @@ ax.set_ylabel(r'\textbf{Estimation Error (\%)}', fontsize=16)
 ax.set_ylim([-50, 150])
 ax.set_yticks(np.arange(-50, 151, 50))
 
+state_colors = {
+    1: '#FF9797',
+    2: '#FFE153',
+    3: "#FFE153",
+    4: '#FFE153',
+    5: '#FF9797',
+    0: '#FFFFFF'
+}
+
+start_idx = 0
+end_idx = 0
+current_state = loader.state_rim[0][0]
+for i in range(loader.df_robot.shape[0]):
+    if loader.state_rim[0][i] != current_state or i == loader.df_robot.shape[0] - 1:
+        end_idx = i
+        ax.axvspan(start_idx/sample_rate, end_idx/sample_rate, color=state_colors[current_state], alpha=0.3)
+        start_idx = i
+        current_state = loader.state_rim[0][i]
+
 ax_twin = ax.twinx()
 ax_twin.set_ylabel(r'\textbf{Condition Number $({\kappa_2})$}', fontsize=16, labelpad=15)
 ax_twin.plot(time_robot, 1/rcond, label=r'Condition Number', color=colors[3], linestyle='--', linewidth=linewidth)
@@ -122,3 +141,10 @@ fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=3, frameon=True,
 plt.savefig('sim_leg_result.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
+
+force = []
+for i in range(0, 6000, 1):
+    if ((1/rcond)[i] <= 5) :
+        force.append(abs((loader.state_force_z[0]-(-loader.sim_force_z[0]))/loader.sim_force_z[0])[i]*100)
+
+print(round(np.average(force), 2))

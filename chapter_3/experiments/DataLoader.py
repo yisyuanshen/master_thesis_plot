@@ -126,6 +126,7 @@ class DataLoader:
     def data_process(self):
         if self.sim:
             self.sim_force_z = np.where(self.sim_force_z >= 0, 0, self.sim_force_z)
+            # self.state_force_z -= (0.68*9.81-5.48)
             self.state_force_z = np.where(self.state_force_z <= 0, 0, self.state_force_z)
             self.state_force_z = np.where(self.sim_force_z > -2, 0, self.state_force_z)
 
