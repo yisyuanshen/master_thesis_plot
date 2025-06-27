@@ -16,11 +16,11 @@ plt.rcParams.update({
 loader = DataLoader(sim=True)
 loader.cutoff_freq = 20
 
-robot_file_paths = 'exp_data_final/sim_wlw_h18_v12_open.csv'
-sim_force_file_paths = 'exp_data_final/sim_wlw_h18_v12_open_force.csv'
+robot_file_paths = 'exp_data_final/sim_wlw_h18_v12_est.csv'
+sim_force_file_paths = 'exp_data_final/sim_wlw_h18_v12_est_force.csv'
 
-start_idx = 14500
-end_idx = 16500
+start_idx = 12500
+end_idx = 14000
 loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
@@ -75,7 +75,7 @@ for i in range(2):
         axs[i, j].set_ylabel(r'\textbf{Force (N)}', fontsize=16)
         axs[i, j].tick_params(axis='both', labelsize=16)
         # axs[i, j].legend(loc='upper right', fontsize=18)
-        axs[i, j].set_xticks(np.arange(0, 21, 5)/10)
+        axs[i, j].set_xticks(np.arange(0, 16, 5)/10)
         axs[i, j].grid(True)
         
 plt.tight_layout(rect=[0, 0.07, 1, 1])

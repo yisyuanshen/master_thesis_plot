@@ -16,11 +16,11 @@ plt.rcParams.update({
 loader = DataLoader(sim=True)
 loader.cutoff_freq = 20
 
-robot_file_paths = 'exp_data_final/sim_wlw_h16_v12_open.csv'
-sim_force_file_paths = 'exp_data_final/sim_wlw_h16_v12_open_force.csv'
+robot_file_paths = 'exp_data_final/sim_wlw_h16_v12_est.csv'
+sim_force_file_paths = 'exp_data_final/sim_wlw_h16_v12_est_force.csv'
 
-start_idx = 14100
-end_idx = 16600
+start_idx = 13000
+end_idx = 15500
 loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)

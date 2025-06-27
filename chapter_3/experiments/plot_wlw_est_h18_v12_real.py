@@ -28,11 +28,6 @@ loader.load_vicon_data(vicon_file_paths, start_idx=start_idx, end_idx=end_idx)
 
 # Data Process
 loader.data_process()
-# loader.vicon_force_z = np.where(loader.vicon_force_z >= 0, 0, loader.vicon_force_z)
-# loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
-# loader.state_force_z = np.where(loader.vicon_force_z > -2, 0, loader.state_force_z)
-
-# loader.state_force_x = np.where(loader.state_force_z == 0, 0, loader.state_force_x)
 
 # Time
 sample_rate = 1000  # Hz, change if different

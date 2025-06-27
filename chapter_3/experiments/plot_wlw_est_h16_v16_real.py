@@ -45,15 +45,15 @@ ax = axs[0, 0]
 ax.plot(time_vicon, -loader.vicon_force_x[1], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[1], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal GRF on Right Front Module}', fontsize=18)
-ax.set_ylim([-70, 35])
-ax.set_yticks(np.arange(-70, 36, 35))
+ax.set_ylim([-40, 80])
+ax.set_yticks(np.arange(-40, 81, 40))
 
 ax = axs[0, 1]
 ax.plot(time_vicon, -loader.vicon_force_x[3], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[3], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal GRF on Left Hind Module}', fontsize=18)
-ax.set_ylim([-50, 100])
-ax.set_yticks(np.arange(-50, 101, 50))
+ax.set_ylim([-60, 30])
+ax.set_yticks(np.arange(-60, 31, 30))
 
 ax = axs[1, 0]
 ax.plot(time_vicon, -loader.vicon_force_z[1], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
