@@ -14,13 +14,13 @@ plt.rcParams.update({
 
 # Load Data
 loader = DataLoader(sim=True)
-loader.cutoff_freq = 30
+loader.cutoff_freq = 20
 
-robot_file_paths = 'exp_data/sim/sim_trot_h25_v45_open.csv'
-sim_force_file_paths = 'exp_data/sim/sim_trot_h25_v45_open_force.csv'
+robot_file_paths = 'exp_data_final/sim_trot_h25_v45_open.csv'
+sim_force_file_paths = 'exp_data_final/sim_trot_h25_v45_open_force.csv'
 
-start_idx = 8000
-end_idx = 9000
+start_idx = 8300
+end_idx = 9300
 loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
@@ -28,11 +28,6 @@ loader.load_sim_force_data(sim_force_file_paths, start_idx=start_idx, end_idx=en
 
 # Data Process
 loader.data_process()
-# loader.sim_force_z = np.where(loader.sim_force_z >= 0, 0, loader.sim_force_z)
-# loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
-# loader.state_force_z = np.where(loader.sim_force_z > -2, 0, loader.state_force_z)
-
-# loader.state_force_x = np.where(loader.state_force_z == 0, 0, loader.state_force_x)
 
 # Time
 sample_rate = 1000  # Hz, change if different
@@ -92,7 +87,7 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # save
-plt.savefig('sim_trot_est_h25_v45_result.pdf', format='pdf', bbox_inches='tight')
+# plt.savefig('sim_trot_est_h25_v45_result.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
 

@@ -14,10 +14,10 @@ plt.rcParams.update({
 
 # Load Data
 loader = DataLoader(sim=False)
-loader.cutoff_freq = 30
+loader.cutoff_freq = 20
 
-robot_file_paths = 'exp_data/real/0617_trot_h25_v45_open_1.csv'
-vicon_file_paths = 'exp_data/real/0617_trot_h25_v45_open_1_vicon.csv'
+robot_file_paths = 'exp_data_final/0617_trot_h25_v45_open.csv'
+vicon_file_paths = 'exp_data_final/0617_trot_h25_v45_open_vicon.csv'
 
 start_idx = 2300
 end_idx = 3300
@@ -25,14 +25,10 @@ loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
 loader.load_vicon_data(vicon_file_paths, start_idx=start_idx, end_idx=end_idx)
+print(loader.trigger_idx)
 
 # Data Process
 loader.data_process()
-# loader.vicon_force_z = np.where(loader.vicon_force_z >= 0, 0, loader.vicon_force_z)
-# loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
-# loader.state_force_z = np.where(loader.vicon_force_z > -2, 0, loader.state_force_z)
-
-# loader.state_force_x = np.where(loader.state_force_z == 0, 0, loader.state_force_x)
 
 # Time
 sample_rate = 1000  # Hz, change if different
@@ -63,15 +59,15 @@ ax = axs[1, 0]
 ax.plot(time_vicon, -loader.vicon_force_z[1], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_z[1], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Vertical GRF on Right Front Module}', fontsize=18)
-ax.set_ylim([-25, 205])
-ax.set_yticks(np.arange(0, 181, 60))
+ax.set_ylim([-30, 230])
+ax.set_yticks(np.arange(0, 201, 50))
 
 ax = axs[1, 1]
 ax.plot(time_vicon, -loader.vicon_force_z[3], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_z[3], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Vertical GRF on Left Hind Module}', fontsize=18)
-ax.set_ylim([-25, 205])
-ax.set_yticks(np.arange(0, 181, 60))
+ax.set_ylim([-30, 230])
+ax.set_yticks(np.arange(0, 201, 50))
 
 # Format
 for i in range(2):
@@ -92,7 +88,7 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # save
-plt.savefig('real_trot_est_h25_v45_result.pdf', format='pdf', bbox_inches='tight')
+# plt.savefig('real_trot_est_h25_v45_result.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
 

@@ -126,17 +126,29 @@ class DataLoader:
     def data_process(self):
         if self.sim:
             self.sim_force_z = np.where(self.sim_force_z >= 0, 0, self.sim_force_z)
-            # self.state_force_z -= (0.68*9.81-5.48)
+            self.state_force_z -= (0.68*9.81-6.41)
             self.state_force_z = np.where(self.state_force_z <= 0, 0, self.state_force_z)
-            self.state_force_z = np.where(self.sim_force_z > -2, 0, self.state_force_z)
-
+            self.state_force_z = np.where(self.sim_force_z > -5, 0, self.state_force_z)
             self.state_force_x = np.where(self.state_force_z == 0, 0, self.state_force_x)
+            self.sim_force_z = np.where(self.state_force_z == 0, 0, self.sim_force_z)
+            self.sim_force_x = np.where(self.state_force_z == 0, 0, self.sim_force_x)
+            
+            self.state_force_x = self.low_pass_filter(self.state_force_x)
+            self.state_force_z = self.low_pass_filter(self.state_force_z)
+            self.sim_force_x = self.low_pass_filter(self.sim_force_x)
+            self.sim_force_z = self.low_pass_filter(self.sim_force_z)
         else:
             self.vicon_force_z = np.where(self.vicon_force_z >= 0, 0, self.vicon_force_z)
             self.state_force_z = np.where(self.state_force_z <= 0, 0, self.state_force_z)
-            self.state_force_z = np.where(self.vicon_force_z > -2, 0, self.state_force_z)
-
+            self.state_force_z = np.where(self.vicon_force_z > -5, 0, self.state_force_z)
             self.state_force_x = np.where(self.state_force_z == 0, 0, self.state_force_x)
+            self.vicon_force_z = np.where(self.state_force_z == 0, 0, self.vicon_force_z)
+            self.vicon_force_x = np.where(self.state_force_z == 0, 0, self.vicon_force_x)
+            
+            self.state_force_x = self.low_pass_filter(self.state_force_x)
+            self.state_force_z = self.low_pass_filter(self.state_force_z)
+            self.vicon_force_x = self.low_pass_filter(self.vicon_force_x)
+            self.vicon_force_z = self.low_pass_filter(self.vicon_force_z)
     
     
     def compute_rmse(self):

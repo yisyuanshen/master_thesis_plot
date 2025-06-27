@@ -14,13 +14,13 @@ plt.rcParams.update({
 
 # Load Data
 loader = DataLoader(sim=False)
-loader.cutoff_freq = 30
+loader.cutoff_freq = 20
 
-robot_file_paths = 'exp_data/real/0618_wlw_h16_v12_open.csv'
-vicon_file_paths = 'exp_data/real/0618_wlw_h16_v12_open_vicon.csv'
+robot_file_paths = 'exp_data_final/0626_wlw_h16_v12_open.csv'
+vicon_file_paths = 'exp_data_final/0626_wlw_h16_v12_open_vicon.csv'
 
-start_idx = 11500
-end_idx = 14500
+start_idx = 13200
+end_idx = 16200
 loader.trigger_idx = None
 
 loader.load_robot_data(robot_file_paths, start_idx=start_idx, end_idx=end_idx)
@@ -28,11 +28,6 @@ loader.load_vicon_data(vicon_file_paths, start_idx=start_idx, end_idx=end_idx)
 
 # Data Process
 loader.data_process()
-# loader.vicon_force_z = np.where(loader.vicon_force_z >= 0, 0, loader.vicon_force_z)
-# loader.state_force_z = np.where(loader.state_force_z <= 0, 0, loader.state_force_z)
-# loader.state_force_z = np.where(loader.vicon_force_z > -2, 0, loader.state_force_z)
-
-# loader.state_force_x = np.where(loader.state_force_z == 0, 0, loader.state_force_x)
 
 # Time
 sample_rate = 1000  # Hz, change if different
@@ -49,15 +44,15 @@ ax = axs[0, 0]
 ax.plot(time_vicon, -loader.vicon_force_x[1], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[1], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal GRF on Right Front Module}', fontsize=18)
-ax.set_ylim([-50, 50])
-ax.set_yticks(np.arange(-50, 51, 25))
+ax.set_ylim([-30, 60])
+ax.set_yticks(np.arange(-30, 61, 30))
 
 ax = axs[0, 1]
 ax.plot(time_vicon, -loader.vicon_force_x[3], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_x[3], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Horizontal GRF on Left Hind Module}', fontsize=18)
-ax.set_ylim([-40, 80])
-ax.set_yticks(np.arange(-40, 81, 40))
+ax.set_ylim([-60, 30])
+ax.set_yticks(np.arange(-60, 31, 30))
 ax = axs[1, 0]
 ax.plot(time_vicon, -loader.vicon_force_z[1], label=r'Measured GRF (Vicon)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_z[1], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
@@ -91,7 +86,7 @@ labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
 # save
-plt.savefig('real_wlw_est_h16_v12_result.pdf', format='pdf', bbox_inches='tight')
+# plt.savefig('real_wlw_est_h16_v12_result.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
 
