@@ -21,14 +21,14 @@ loader_c = DataLoader(sim=True)
 loader_o.cutoff_freq = 5
 loader_c.cutoff_freq = 5
 
-robot_file_paths_o = 'exp_data_final/sim_trot_h20_v45_open_phase.csv'
-sim_force_file_paths_o = 'exp_data_final/sim_trot_h20_v45_open_phase_force.csv'
+robot_file_paths_o = 'exp_data_final/sim_trot_h20_v60_open_phase.csv'
+sim_force_file_paths_o = 'exp_data_final/sim_trot_h20_v60_open_phase_force.csv'
 
-robot_file_paths_c = 'exp_data_final/sim_trot_h20_v45_closed_phase.csv'
-sim_force_file_paths_c = 'exp_data_final/sim_trot_h20_v45_closed_phase_force.csv'
+robot_file_paths_c = 'exp_data_final/sim_trot_h20_v60_closed_phase.csv'
+sim_force_file_paths_c = 'exp_data_final/sim_trot_h20_v60_closed_phase_force.csv'
 
-start_idx = 5002
-end_idx = 13000
+start_idx = 5250
+end_idx = 11250
 
 loader_o.trigger_idx = None
 loader_o.load_robot_data(robot_file_paths_o, start_idx=start_idx, end_idx=end_idx)
@@ -76,11 +76,11 @@ else:
 
 ax.set_title(r'\textbf{Position Z}', fontsize=18)
 if odom:
-    ax.set_ylim([0.160, 0.220])
-    ax.set_yticks(np.arange(160, 221, 20)/1000)
+    ax.set_ylim([0.150, 0.225])
+    ax.set_yticks(np.arange(150, 226, 25)/1000)
 else:
-    ax.set_ylim([0.160, 0.220])
-    ax.set_yticks(np.arange(160, 221, 20)/1000)
+    ax.set_ylim([0.150, 0.225])
+    ax.set_yticks(np.arange(150, 226, 25)/1000)
 ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
 
 
@@ -94,11 +94,11 @@ else:
     
 ax.set_title(r'\textbf{Velocity X}', fontsize=18)
 if odom:
-    ax.set_ylim([-0.35, 0.7])
-    ax.set_yticks(np.arange(-35, 71, 35)/100)
+    ax.set_ylim([-0.5, 1])
+    ax.set_yticks(np.arange(-5, 11, 5)/10)
 else:
-    ax.set_ylim([-0.35, 0.7])
-    ax.set_yticks(np.arange(-35, 71, 35)/100)
+    ax.set_ylim([-0.5, 1])
+    ax.set_yticks(np.arange(-5, 11, 5)/10)
 ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
 
 
@@ -115,8 +115,8 @@ if odom:
     ax.set_ylim([-0.15, 0.3])
     ax.set_yticks(np.arange(-15, 31, 15)/100)
 else:
-    ax.set_ylim([-0.25, 0.25])
-    ax.set_yticks(np.arange(-25, 26, 25)/100)
+    ax.set_ylim([-0.3, 0.3])
+    ax.set_yticks(np.arange(-3, 4, 3)/10)
 ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
 
 
@@ -129,8 +129,8 @@ else:
     ax.plot(time_sim, loader_c.imu_roll, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll}', fontsize=18)
-ax.set_ylim([-15, 15])
-ax.set_yticks(np.arange(-15, 16, 15))
+ax.set_ylim([-20, 20])
+ax.set_yticks(np.arange(-20, 21, 20))
 ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
 
 
@@ -157,8 +157,8 @@ else:
     ax.plot(time_sim[:-1], loader_c.imu_roll_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll Rate}', fontsize=18)
-ax.set_ylim([-100, 100])
-ax.set_yticks(np.arange(-100, 101, 100))
+ax.set_ylim([-120, 120])
+ax.set_yticks(np.arange(-120, 121, 120))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 
@@ -171,8 +171,8 @@ else:
     ax.plot(time_sim[:-1], loader_c.imu_pitch_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Pitch Rate}', fontsize=18)
-ax.set_ylim([-90, 90])
-ax.set_yticks(np.arange(-90, 91, 90))
+ax.set_ylim([-150, 150])
+ax.set_yticks(np.arange(-150, 151, 150))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 
@@ -182,7 +182,7 @@ for i in range(4):
         axs[i, j].set_xlabel(r'\textbf{Time (s)}', fontsize=16)
         axs[i, j].tick_params(axis='both', labelsize=16)
         # axs[i, j].legend(loc='upper right', fontsize=18)
-        axs[i, j].set_xticks(np.arange(0, 9, 1))
+        axs[i, j].set_xticks(np.arange(0, 7, 1))
         axs[i, j].grid(True)
         
 plt.tight_layout(rect=[0, 0.06, 1, 1])
@@ -225,11 +225,11 @@ length = min(lengths)
 # 建立 ground truth
 dt = 1.0 / sample_rate
 target_vel_x = []
-for i in range(1000):
+for i in range(750):
     target_vel_x.append(0)
-for i in range(6000):
-    target_vel_x.append(0.45)
-for i in range(999):
+for i in range(4500):
+    target_vel_x.append(0.6)
+for i in range(749):
     target_vel_x.append(0)
 
 

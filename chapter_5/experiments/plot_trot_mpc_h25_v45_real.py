@@ -15,32 +15,32 @@ plt.rcParams.update({
 odom = False
 
 # Load Data
-loader_o = DataLoader(sim=True)
-loader_c = DataLoader(sim=True)
+loader_o = DataLoader(sim=False)
+loader_c = DataLoader(sim=False)
 
 loader_o.cutoff_freq = 5
 loader_c.cutoff_freq = 5
 
-robot_file_paths_o = 'exp_data_final/sim_trot_h20_v45_open_phase.csv'
-sim_force_file_paths_o = 'exp_data_final/sim_trot_h20_v45_open_phase_force.csv'
+robot_file_paths_o = 'exp_data_final/0625_trot_h25_v45_open.csv'
+vicon_file_paths_o = 'exp_data_final/0625_trot_h25_v45_open_vicon.csv'
 
-robot_file_paths_c = 'exp_data_final/sim_trot_h20_v45_closed_phase.csv'
-sim_force_file_paths_c = 'exp_data_final/sim_trot_h20_v45_closed_phase_force.csv'
+robot_file_paths_c = 'exp_data_final/0625_trot_h25_v45_closed.csv'
+vicon_file_paths_c = 'exp_data_final/0625_trot_h25_v45_closed_vicon.csv'
 
-start_idx = 5002
-end_idx = 13000
+start_idx = 2000
+end_idx = 10000
 
 loader_o.trigger_idx = None
 loader_o.load_robot_data(robot_file_paths_o, start_idx=start_idx, end_idx=end_idx)
-loader_o.load_sim_force_data(sim_force_file_paths_o, start_idx=start_idx, end_idx=end_idx)
+loader_o.load_vicon_data(vicon_file_paths_o, start_idx=start_idx, end_idx=end_idx)
 
 loader_c.trigger_idx = None
 loader_c.load_robot_data(robot_file_paths_c, start_idx=start_idx, end_idx=end_idx)
-loader_c.load_sim_force_data(sim_force_file_paths_c, start_idx=start_idx, end_idx=end_idx)
+loader_c.load_vicon_data(vicon_file_paths_c, start_idx=start_idx, end_idx=end_idx)
 
 # Time
 sample_rate = 1000  # Hz, change if different
-time_sim = np.arange(loader_o.df_sim_force.shape[0]) / sample_rate
+time_vicon = np.arange(loader_o.df_vicon.shape[0]) / sample_rate
 time_robot = np.arange(loader_o.df_robot.shape[0]) / sample_rate
 
 # Plot
@@ -48,13 +48,14 @@ fig, axs = plt.subplots(4, 2, figsize=(12, 8))
 colors = ['C2', 'C3', 'C5', 'C9']
 linewidth = 1.5
 
+
 ax = axs[0, 0]
 if odom:
     ax.plot(time_robot, loader_o.odom_pos_x, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_pos_x, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim, loader_o.sim_pos_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim, loader_c.sim_pos_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon, loader_o.vicon_pos_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon, loader_c.vicon_pos_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Position X}', fontsize=18)
 if odom:
@@ -71,16 +72,16 @@ if odom:
     ax.plot(time_robot, loader_o.odom_pos_z, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_pos_z, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim, loader_o.sim_pos_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim, loader_c.sim_pos_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon, loader_o.vicon_pos_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon, loader_c.vicon_pos_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Position Z}', fontsize=18)
 if odom:
-    ax.set_ylim([0.160, 0.220])
-    ax.set_yticks(np.arange(160, 221, 20)/1000)
+    ax.set_ylim([0.220, 0.265])
+    ax.set_yticks(np.arange(220, 266, 15)/1000)
 else:
-    ax.set_ylim([0.160, 0.220])
-    ax.set_yticks(np.arange(160, 221, 20)/1000)
+    ax.set_ylim([0.220, 0.265])
+    ax.set_yticks(np.arange(220, 266, 15)/1000)
 ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
 
 
@@ -89,16 +90,16 @@ if odom:
     ax.plot(time_robot, loader_o.odom_vel_x, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_vel_x, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim[:-1], loader_o.sim_vel_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim[:-1], loader_c.sim_vel_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_o.vicon_vel_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_c.vicon_vel_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
     
 ax.set_title(r'\textbf{Velocity X}', fontsize=18)
 if odom:
     ax.set_ylim([-0.35, 0.7])
     ax.set_yticks(np.arange(-35, 71, 35)/100)
 else:
-    ax.set_ylim([-0.35, 0.7])
-    ax.set_yticks(np.arange(-35, 71, 35)/100)
+    ax.set_ylim([-0.3, 0.6])
+    ax.set_yticks(np.arange(-3, 7, 3)/10)
 ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
 
 
@@ -107,13 +108,13 @@ if odom:
     ax.plot(time_robot, loader_o.odom_vel_z, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.odom_vel_z, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim[:-1], loader_o.sim_vel_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim[:-1], loader_c.sim_vel_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_o.vicon_vel_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_c.vicon_vel_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Velocity Z}', fontsize=18)
 if odom:
-    ax.set_ylim([-0.15, 0.3])
-    ax.set_yticks(np.arange(-15, 31, 15)/100)
+    ax.set_ylim([-0.3, 0.3])
+    ax.set_yticks(np.arange(-30, 31, 30)/100)
 else:
     ax.set_ylim([-0.25, 0.25])
     ax.set_yticks(np.arange(-25, 26, 25)/100)
@@ -125,12 +126,16 @@ if odom:
     ax.plot(time_robot, loader_o.imu_roll, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.imu_roll, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim, loader_o.imu_roll, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim, loader_c.imu_roll, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon, loader_o.vicon_roll, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon, loader_c.vicon_roll, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll}', fontsize=18)
-ax.set_ylim([-15, 15])
-ax.set_yticks(np.arange(-15, 16, 15))
+if odom:
+    ax.set_ylim([-6, 12])
+    ax.set_yticks(np.arange(-6, 13, 6))
+else:
+    ax.set_ylim([-5, 10])
+    ax.set_yticks(np.arange(-5, 11, 5))
 ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
 
 
@@ -139,12 +144,16 @@ if odom:
     ax.plot(time_robot, loader_o.imu_pitch, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot, loader_c.imu_pitch, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim, loader_o.imu_pitch, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim, loader_c.imu_pitch, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon, loader_o.vicon_pitch, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon, loader_c.vicon_pitch, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Pitch}', fontsize=18)
-ax.set_ylim([-10, 10])
-ax.set_yticks(np.arange(-10, 11, 10))
+if odom:
+    ax.set_ylim([-12, 6])
+    ax.set_yticks(np.arange(-12, 7, 6))
+else:
+    ax.set_ylim([-9, 9])
+    ax.set_yticks(np.arange(-9, 10, 9))
 ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
 
 
@@ -153,12 +162,16 @@ if odom:
     ax.plot(time_robot[:-1], loader_o.imu_roll_rate, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot[:-1], loader_c.imu_roll_rate, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim[:-1], loader_o.imu_roll_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim[:-1], loader_c.imu_roll_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_o.vicon_roll_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_c.vicon_roll_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Roll Rate}', fontsize=18)
-ax.set_ylim([-100, 100])
-ax.set_yticks(np.arange(-100, 101, 100))
+if odom:
+    ax.set_ylim([-80, 80])
+    ax.set_yticks(np.arange(-80, 81, 80))
+else:
+    ax.set_ylim([-80, 80])
+    ax.set_yticks(np.arange(-80, 81, 80))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 
@@ -167,12 +180,16 @@ if odom:
     ax.plot(time_robot[:-1], loader_o.imu_pitch_rate, label=r'Open Loop', color=colors[0], linestyle='-', linewidth=linewidth)
     ax.plot(time_robot[:-1], loader_c.imu_pitch_rate, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 else:
-    ax.plot(time_sim[:-1], loader_o.imu_pitch_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
-    ax.plot(time_sim[:-1], loader_c.imu_pitch_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_o.vicon_pitch_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
+    ax.plot(time_vicon[:-1], loader_c.vicon_pitch_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
 ax.set_title(r'\textbf{Pitch Rate}', fontsize=18)
-ax.set_ylim([-90, 90])
-ax.set_yticks(np.arange(-90, 91, 90))
+if odom:
+    ax.set_ylim([-90, 90])
+    ax.set_yticks(np.arange(-90, 91, 90))
+else:
+    ax.set_ylim([-90, 90])
+    ax.set_yticks(np.arange(-90, 91, 90))
 ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
 
 
@@ -182,7 +199,7 @@ for i in range(4):
         axs[i, j].set_xlabel(r'\textbf{Time (s)}', fontsize=16)
         axs[i, j].tick_params(axis='both', labelsize=16)
         # axs[i, j].legend(loc='upper right', fontsize=18)
-        axs[i, j].set_xticks(np.arange(0, 9, 1))
+        axs[i, j].set_xticks(np.arange(0, 9, 2))
         axs[i, j].grid(True)
         
 plt.tight_layout(rect=[0, 0.06, 1, 1])
@@ -195,9 +212,9 @@ fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True,
 
 # save
 # if odom:
-#     plt.savefig('sim_trot_odom_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
+#     plt.savefig('real_trot_odom_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
 # else:
-#     plt.savefig('sim_trot_truth_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
+#     plt.savefig('real_trot_vicon_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
 
 plt.show()
 
@@ -205,7 +222,6 @@ plt.show()
 
 
 def compute_rmse_std(predicted, target):
-    print(round(np.mean(predicted), 3), round(np.mean(target), 3))
     err = np.array(predicted) - np.array(target)
     return np.sqrt(np.mean(err**2)), np.std(err)
 
@@ -229,14 +245,13 @@ for i in range(1000):
     target_vel_x.append(0)
 for i in range(6000):
     target_vel_x.append(0.45)
-for i in range(999):
+for i in range(1000):
     target_vel_x.append(0)
-
-
+    
 target_pos_x     = np.cumsum(target_vel_x) * dt
 ground_truth = {
     'Position X':      target_pos_x,
-    'Position Z':      np.full(length, 0.2),
+    'Position Z':      np.full(length, 0.25),
     'Velocity X':      target_vel_x,
     'Velocity Z':      np.zeros(length),
     'IMU Roll':        np.zeros(length),
@@ -260,14 +275,14 @@ def get_series(loader, key):
         }
     else:
         d = {
-            'Position X':    loader.sim_pos_x,
-            'Position Z':    loader.sim_pos_z,
-            'Velocity X':    loader.sim_vel_x,
-            'Velocity Z':    loader.sim_vel_z,
-            'IMU Roll':      loader.imu_roll,
-            'IMU Pitch':     loader.imu_pitch,
-            'IMU Roll Rate': loader.imu_roll_rate,
-            'IMU Pitch Rate':loader.imu_pitch_rate,
+            'Position X':    loader.vicon_pos_x,
+            'Position Z':    loader.vicon_pos_z,
+            'Velocity X':    loader.vicon_vel_x,
+            'Velocity Z':    loader.vicon_vel_z,
+            'IMU Roll':      loader.vicon_roll,
+            'IMU Pitch':     loader.vicon_pitch,
+            'IMU Roll Rate': loader.vicon_roll_rate,
+            'IMU Pitch Rate':loader.vicon_pitch_rate,
         }
     return d[key][:length]
 
