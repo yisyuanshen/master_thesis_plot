@@ -119,3 +119,10 @@ class DataLoader:
         b, a = butter(order, normal_cutoff, btype='low', analog=False)
         filtered_data = filtfilt(b, a, data, axis=-1)
         return filtered_data
+
+def low_pass_filter(data, cutoff_freq, fs=1000, order=2):
+        nyquist = 0.5 * fs
+        normal_cutoff = cutoff_freq / nyquist
+        b, a = butter(order, normal_cutoff, btype='low', analog=False)
+        filtered_data = filtfilt(b, a, data, axis=-1)
+        return filtered_data
