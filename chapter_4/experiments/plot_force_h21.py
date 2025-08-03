@@ -16,8 +16,8 @@ plt.rcParams.update({
 # Load Data
 loader = DataLoader(sim=False)
 
-robot_file_paths = 'exp_data/real/0612_force_h21.csv'
-vicon_file_paths = 'exp_data/real/0612_force_h21_vicon.csv'
+robot_file_paths = 'exp_data_final/0612_force_h21.csv'
+vicon_file_paths = 'exp_data_final/0612_force_h21_vicon.csv'
 
 start_idx = 2000
 end_idx = 10000
