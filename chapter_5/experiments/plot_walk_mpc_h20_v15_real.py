@@ -321,3 +321,15 @@ print()
 
 for state, ormse, ostd, crmse, cstd in results:
     print(f"{ormse:.3f}&{crmse:.3f}&{ostd:.3f}&{cstd:.3f}")
+
+print('\n\n')
+for i in [2, 5, 6, 7, 8, 9, 10, 11]:
+    print(i, '   ', np.average(loader_o.df_robot[f'i_{i}'].to_numpy()*loader_o.df_robot[f'v_{i}'].to_numpy()))
+
+print('\n\n')
+for i in [2, 5, 6, 7, 8, 9, 10, 11]:
+    print(i, '   ', np.average(loader_c.df_robot[f'i_{i}'].to_numpy()*loader_c.df_robot[f'v_{i}'].to_numpy()))
+
+print('\n\n')
+print('Open Loop: ', sum([np.average(loader_o.df_robot[f'i_{i}'].to_numpy()*loader_o.df_robot[f'v_{i}'].to_numpy()) for i in [2, 5, 6, 7, 8, 9, 10, 11]]))
+print('Closed Loop:', sum([np.average(loader_c.df_robot[f'i_{i}'].to_numpy()*loader_c.df_robot[f'v_{i}'].to_numpy()) for i in [2, 5, 6, 7, 8, 9, 10, 11]]))

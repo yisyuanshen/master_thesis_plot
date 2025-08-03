@@ -227,7 +227,7 @@ if __name__ == '__main__':
     arow = patches.FancyArrowPatch([0.1, -0.2], [0.1, -0.155], color='blue', linewidth=3, arrowstyle='-|>', mutation_scale=25, linestyle='-')
     ax.add_patch(arow)
 
-    # ax.legend(loc='upper left')
+    ax.legend(loc='upper left')
     ax.set_aspect('equal')
     ax.set_xlim(-0.21, 0.21)
     ax.set_ylim(-0.22, 0.14)
@@ -245,6 +245,6 @@ if __name__ == '__main__':
     
     # plt.xticks(np.arange(-2, 4, 1)/20, fontsize=12)
     # plt.yticks(np.arange(-4, 3, 1)/20, fontsize=12)
-    # plt.savefig('LegPlot.pdf', format='pdf', bbox_inches='tight')
+    plt.savefig('LegPlot.pdf', format='pdf', bbox_inches='tight')
     plt.show()
     
