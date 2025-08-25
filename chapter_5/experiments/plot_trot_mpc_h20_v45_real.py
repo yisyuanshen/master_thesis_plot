@@ -7,12 +7,12 @@ from DataLoader import DataLoader
 plt.rcParams.update({
     'text.usetex': True,
     'font.family': 'Times New Roman',
-    'font.size': 14,
+    'font.size': 18,
     'axes.linewidth': 1.2,
     'legend.frameon': False,
 })
 
-odom = False
+odom = True
 
 # Load Data
 loader_o = DataLoader(sim=False)
@@ -44,8 +44,8 @@ time_vicon = np.arange(loader_o.df_vicon.shape[0]) / sample_rate
 time_robot = np.arange(loader_o.df_robot.shape[0]) / sample_rate
 
 # Plot
-fig, axs = plt.subplots(4, 2, figsize=(12, 8))
-colors = ['C2', 'C3', 'C5', 'C9']
+fig, axs = plt.subplots(4, 2, figsize=(12, 9))
+colors = ['C5', 'C9', 'C5', 'C9']
 linewidth = 1.5
 
 
@@ -57,14 +57,14 @@ else:
     ax.plot(time_vicon, loader_o.vicon_pos_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon, loader_c.vicon_pos_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Position X}', fontsize=18)
+ax.set_title(r'\textbf{Position X}', fontsize=20)
 if odom:
     ax.set_ylim([-0.5, 3.5])
     ax.set_yticks(np.arange(0, 31, 15)/10)
 else:
     ax.set_ylim([-0.5, 3.5])
     ax.set_yticks(np.arange(0, 31, 15)/10)
-ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Position (m)}', fontsize=18)
 
 
 ax = axs[0, 1]
@@ -75,14 +75,14 @@ else:
     ax.plot(time_vicon, loader_o.vicon_pos_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon, loader_c.vicon_pos_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Position Z}', fontsize=18)
+ax.set_title(r'\textbf{Position Z}', fontsize=20)
 if odom:
     ax.set_ylim([0.180, 0.210])
     ax.set_yticks(np.arange(180, 211, 10)/1000)
 else:
     ax.set_ylim([0.170, 0.215])
     ax.set_yticks(np.arange(170, 216, 15)/1000)
-ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Position (m)}', fontsize=18)
 
 
 ax = axs[1, 0]
@@ -93,14 +93,14 @@ else:
     ax.plot(time_vicon[:-1], loader_o.vicon_vel_x, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon[:-1], loader_c.vicon_vel_x, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
     
-ax.set_title(r'\textbf{Velocity X}', fontsize=18)
+ax.set_title(r'\textbf{Velocity X}', fontsize=20)
 if odom:
     ax.set_ylim([-0.35, 0.7])
     ax.set_yticks(np.arange(-35, 71, 35)/100)
 else:
     ax.set_ylim([-0.3, 0.6])
     ax.set_yticks(np.arange(-3, 7, 3)/10)
-ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=18)
 
 
 ax = axs[1, 1]
@@ -111,14 +111,14 @@ else:
     ax.plot(time_vicon[:-1], loader_o.vicon_vel_z, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon[:-1], loader_c.vicon_vel_z, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Velocity Z}', fontsize=18)
+ax.set_title(r'\textbf{Velocity Z}', fontsize=20)
 if odom:
     ax.set_ylim([-0.4, 0.2])
     ax.set_yticks(np.arange(-4, 3, 2)/10)
 else:
     ax.set_ylim([-0.2, 0.2])
     ax.set_yticks(np.arange(-2, 3, 2)/10)
-ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=18)
 
 
 ax = axs[2, 0]
@@ -129,14 +129,14 @@ else:
     ax.plot(time_vicon, loader_o.vicon_roll, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon, loader_c.vicon_roll, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Roll}', fontsize=18)
+ax.set_title(r'\textbf{Roll}', fontsize=20)
 if odom:
     ax.set_ylim([-5, 10])
     ax.set_yticks(np.arange(-5, 11, 5))
 else:
     ax.set_ylim([-4, 8])
     ax.set_yticks(np.arange(-4, 9, 4))
-ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=18)
 
 
 ax = axs[2, 1]
@@ -147,14 +147,14 @@ else:
     ax.plot(time_vicon, loader_o.vicon_pitch, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon, loader_c.vicon_pitch, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Pitch}', fontsize=18)
+ax.set_title(r'\textbf{Pitch}', fontsize=20)
 if odom:
     ax.set_ylim([-10, 5])
     ax.set_yticks(np.arange(-10, 6, 5))
 else:
     ax.set_ylim([-8, 8])
     ax.set_yticks(np.arange(-8, 9, 8))
-ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=18)
 
 
 ax = axs[3, 0]
@@ -165,14 +165,14 @@ else:
     ax.plot(time_vicon[:-1], loader_o.vicon_roll_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon[:-1], loader_c.vicon_roll_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Roll Rate}', fontsize=18)
+ax.set_title(r'\textbf{Roll Rate}', fontsize=20)
 if odom:
     ax.set_ylim([-70, 70])
     ax.set_yticks(np.arange(-70, 71, 70))
 else:
     ax.set_ylim([-70, 70])
     ax.set_yticks(np.arange(-70, 71, 70))
-ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=18)
 
 
 ax = axs[3, 1]
@@ -183,36 +183,38 @@ else:
     ax.plot(time_vicon[:-1], loader_o.vicon_pitch_rate, label=r'Open Loop', color=colors[2], linestyle='-', linewidth=linewidth)
     ax.plot(time_vicon[:-1], loader_c.vicon_pitch_rate, label=r'Closed Loop', color=colors[3], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Pitch Rate}', fontsize=18)
+ax.set_title(r'\textbf{Pitch Rate}', fontsize=20)
 if odom:
     ax.set_ylim([-80, 80])
     ax.set_yticks(np.arange(-80, 81, 80))
 else:
     ax.set_ylim([-80, 80])
     ax.set_yticks(np.arange(-80, 81, 80))
-ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=18)
 
 
 # Format
 for i in range(4):
     for j in range(2):
-        axs[i, j].set_xlabel(r'\textbf{Time (s)}', fontsize=16)
-        axs[i, j].tick_params(axis='both', labelsize=16)
+        axs[i, j].set_xlabel(r'\textbf{Time (s)}', fontsize=18)
+        axs[i, j].tick_params(axis='both', labelsize=18)
         # axs[i, j].legend(loc='upper right', fontsize=18)
         axs[i, j].set_xticks(np.arange(0, 9, 2))
         axs[i, j].grid(True)
         
-plt.tight_layout(rect=[0, 0.06, 1, 1])
+plt.tight_layout(rect=[0, 0.06, 1, 0.92])
 
-plt.subplots_adjust(wspace=0.25, hspace=1.2)
+plt.subplots_adjust(wspace=0.25, hspace=1.5)
 
 lines = [axs[0, 0].lines[0], axs[0, 0].lines[1]]
 labels = [line.get_label() for line in lines]
-fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
+fig.legend(lines, labels, loc='lower center', fontsize=18, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
+
+fig.suptitle(r'\textbf{Real Robot Results (\#4)}', fontsize=22, y=0.98)
 
 # save
-# if odom:
-#     plt.savefig('real_trot_odom_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
+if odom:
+    plt.savefig('real_trot_odom_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
 # else:
 #     plt.savefig('real_trot_vicon_h20_v45_result.pdf', format='pdf', bbox_inches='tight')
 

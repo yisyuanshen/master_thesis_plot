@@ -8,7 +8,7 @@ from matplotlib.ticker import MultipleLocator
 
 plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'Times New Roman'
-plt.rcParams['font.size'] = 12
+plt.rcParams['font.size'] = 20
 
 
 class LegModel:
@@ -148,7 +148,7 @@ def main():
     }
     
     # Create figure with a GridSpec layout
-    fig = plt.figure(figsize=(10, 6))
+    fig = plt.figure(figsize=(10, 8))
     gs = fig.add_gridspec(2, 1, height_ratios=[1, 0.8], hspace=0)
     
     # Top section: 1x5 subplots
@@ -204,7 +204,7 @@ def main():
     ax_bottom.legend()
     
     # Adjust overall figure layout
-    fig.subplots_adjust(left=0.07, right=0.99, top=1.03, bottom=0.1)
+    fig.subplots_adjust(left=0.1, right=0.99, top=0.97, bottom=0.12)
     # fig.tight_layout()
     fig.canvas.draw()
     

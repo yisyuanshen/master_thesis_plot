@@ -7,7 +7,7 @@ import matplotlib.collections as mcoll
 
 plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'Times New Roman'
-plt.rcParams['font.size'] = 12
+plt.rcParams['font.size'] = 22
 
 
 def truncate_colormap(cmap, min_val=0.3, max_val=1.0, n=10000):
@@ -296,7 +296,7 @@ class LegModel:
         ax.set_ylim(-0.15, 0.15)
         ax.set_xlabel('X (m)')
         ax.set_ylabel('Y (m)')
-        ax.set_title(r'Definition of Contact Angle ($\alpha$)')
+        ax.set_title(r'Definition of Contact Angle ($\alpha$)', pad=10)
         ax.tick_params(axis='both', labelsize=12)
 
         # Add a colorbar
@@ -412,7 +412,7 @@ if __name__ == '__main__':
     legmodel.forward(np.deg2rad(17), np.deg2rad(0))
 
     # Create overall figure with GridSpec:
-    fig = plt.figure(figsize=(10, 6))
+    fig = plt.figure(figsize=(10.25, 7))
     outer = gridspec.GridSpec(1, 2, width_ratios=[3, 1], wspace=0.1)
 
     # Left main axis for the leg model
@@ -428,15 +428,15 @@ if __name__ == '__main__':
     # Example content for the right-hand subplots
     legmodel.forward(np.deg2rad(30), np.deg2rad(35))
     legmodel.plot_alpha_example(ax_sub1, -30)
-    ax_sub1.set_title(r'$\alpha=-\frac{1}{2}\pi$', pad=8)
+    ax_sub1.set_title(r'$\alpha=-\frac{1}{2}\pi$', pad=12)
     
     legmodel.forward(np.deg2rad(54), np.deg2rad(-13))
     legmodel.plot_alpha_example(ax_sub2, 60)
-    ax_sub2.set_title(r'$\alpha=\frac{1}{3}\pi$', pad=8)
+    ax_sub2.set_title(r'$\alpha=\frac{1}{3}\pi$', pad=12)
     
     legmodel.forward(np.deg2rad(45), np.deg2rad(-102))
     legmodel.plot_alpha_example(ax_sub3, 120)
-    ax_sub3.set_title(r'$\alpha=\frac{2}{3}\pi$', pad=8)
+    ax_sub3.set_title(r'$\alpha=\frac{2}{3}\pi$', pad=12)
 
     ax_sub1.set_xticks([])
     ax_sub1.set_yticks([])
@@ -445,6 +445,5 @@ if __name__ == '__main__':
     ax_sub3.set_xticks([])
     ax_sub3.set_yticks([])
     
-    fig.subplots_adjust(left=0.03, right=1, top=0.94, bottom=0.08)
-    
+    fig.subplots_adjust(left=0.1, right=1, top=0.9, bottom=0.08)
     plt.show()

@@ -295,6 +295,7 @@ class LegModel:
         plt.xticks(np.arange(-2, 4, 1)/20, fontsize=12)
         plt.yticks(np.arange(-4, 3, 1)/20, fontsize=12)
         # plt.savefig('LegPlot.pdf', format='pdf', bbox_inches='tight')
+        plt.tight_layout()
         plt.show()
         
 if __name__ == '__main__':

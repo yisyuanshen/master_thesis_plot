@@ -9,7 +9,7 @@ import LegModel_
 plt.rcParams.update({
     'text.usetex': True,
     'font.family': 'Times New Roman',
-    'font.size': 14,
+    'font.size': 18,
     'axes.linewidth': 1.2,
     'legend.frameon': False,
 })
@@ -18,8 +18,8 @@ plt.rcParams.update({
 loader = DataLoader(sim=True)
 loader.cutoff_freq = 5
 
-robot_file_paths = 'exp_data/sim/sim_leg.csv'
-sim_force_file_paths = 'exp_data/sim/sim_leg_force.csv'
+robot_file_paths = 'exp_data_final/sim_leg.csv'
+sim_force_file_paths = 'exp_data_final/sim_leg_force.csv'
 
 start_idx = 18000
 end_idx = 30000
@@ -51,13 +51,13 @@ time_sim_force = np.arange(loader.df_sim_force.shape[0]) / sample_rate
 time_robot = np.arange(loader.df_robot.shape[0]) / sample_rate
 
 # Plot
-fig, axs = plt.subplots(2, 1, figsize=(12, 8))
+fig, axs = plt.subplots(2, 1, figsize=(10, 8))
 colors = ['C1', "#3C3C3C", 'C2', 'C3']
 linewidth = 1.5
 
 # Force
 ax = axs[0]
-ax.plot(time_sim_force, -loader.sim_force_z[0], label=r'Measured GRF (Sim)', color=colors[0], linestyle='-', linewidth=linewidth)
+ax.plot(time_sim_force, -loader.sim_force_z[0], label=r'Measured GRF (Ground Truth)', color=colors[0], linestyle='-', linewidth=linewidth)
 ax.plot(time_robot, loader.state_force_z[0], label=r'Estimated GRF (State)', color=colors[1], linestyle=':', linewidth=linewidth)
 ax.set_title(r'\textbf{Vertical Ground Reaction Force (GRF)}', fontsize=18)
 ax.set_ylabel(r'\textbf{Force (N)}', fontsize=16)

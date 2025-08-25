@@ -7,7 +7,7 @@ from DataLoader import DataLoader
 plt.rcParams.update({
     'text.usetex': True,
     'font.family': 'Times New Roman',
-    'font.size': 14,
+    'font.size': 18,
     'axes.linewidth': 1.2,
     'legend.frameon': False,
 })
@@ -29,100 +29,102 @@ sample_rate = 1000  # Hz, change if different
 time_robot = np.arange(loader.df_robot.shape[0]) / sample_rate
 
 # Plot
-fig, axs = plt.subplots(4, 2, figsize=(12, 8))
+fig, axs = plt.subplots(4, 2, figsize=(12, 9))
 colors = ['C2', 'C3', 'C5', 'C9']
 linewidth = 1.5
 
 ax = axs[0, 0]
 ax.plot(time_robot, loader.sim_pos_x, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Position X}', fontsize=18)
+ax.set_title(r'\textbf{Position X}', fontsize=20)
 ax.set_ylim([-0.8, 2.8])
 ax.set_yticks(np.arange(0, 3, 1))
-ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Position (m)}', fontsize=18)
 
 
 ax = axs[0, 1]
 ax.plot(time_robot, loader.sim_pos_z-0.03, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Position Z}', fontsize=18)
+ax.set_title(r'\textbf{Position Z}', fontsize=20)
 ax.set_ylim([0.240, 0.270])
 ax.set_yticks(np.arange(240, 271, 10)/1000)
-ax.set_ylabel(r'\textbf{Position (m)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Position (m)}', fontsize=18)
 
 ax = axs[1, 0]
 ax.plot(time_robot[:-1], loader.sim_vel_x, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
     
-ax.set_title(r'\textbf{Velocity X}', fontsize=18)
+ax.set_title(r'\textbf{Velocity X}', fontsize=20)
 ax.set_ylim([-0.02, 0.22])
 ax.set_yticks(np.arange(0, 3, 1)/10)
-ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=18)
 
 
 ax = axs[1, 1]
 ax.plot(time_robot[:-1], loader.sim_vel_z, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Velocity Z}', fontsize=18)
+ax.set_title(r'\textbf{Velocity Z}', fontsize=20)
 ax.set_ylim([-0.06, 0.06])
 ax.set_yticks(np.arange(-6, 7, 6)/100)
-ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Velocity (m/s)}', fontsize=18)
 
 
 ax = axs[2, 0]
 ax.plot(time_robot, loader.imu_roll, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 
+ax.set_title(r'\textbf{Roll}', fontsize=20)
 ax.set_ylim([-1, 1])
 ax.set_yticks(np.arange(-1, 2, 1))
-ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=18)
 
 
 ax = axs[2, 1]
 ax.plot(time_robot, loader.imu_pitch, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Pitch}', fontsize=18)
+ax.set_title(r'\textbf{Pitch}', fontsize=20)
 ax.set_ylim([-2, 2])
 ax.set_yticks(np.arange(-2, 3, 2))
-ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Angle (deg)}', fontsize=18)
 
 
 ax = axs[3, 0]
 ax.plot(time_robot[:-1], loader.imu_roll_rate, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Roll Rate}', fontsize=18)
+ax.set_title(r'\textbf{Roll Rate}', fontsize=20)
 ax.set_ylim([-3, 3])
 ax.set_yticks(np.arange(-3, 4, 3))
-ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=18)
 
 
 ax = axs[3, 1]
 ax.plot(time_robot[:-1], loader.imu_pitch_rate, label=r'Closed Loop', color=colors[1], linestyle='--', linewidth=linewidth)
 
-ax.set_title(r'\textbf{Pitch Rate}', fontsize=18)
+ax.set_title(r'\textbf{Pitch Rate}', fontsize=20)
 ax.set_ylim([-7, 7])
 ax.set_yticks(np.arange(-7, 8, 7))
-ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=16)
+ax.set_ylabel(r'\textbf{Rate (deg/s)}', fontsize=18)
 
 
 # Format
 for i in range(4):
     for j in range(2):
-        axs[i, j].set_xlabel(r'\textbf{Time (s)}', fontsize=16)
-        axs[i, j].tick_params(axis='both', labelsize=16)
+        axs[i, j].set_xlabel(r'\textbf{Time (s)}', fontsize=18)
+        axs[i, j].tick_params(axis='both', labelsize=18)
         # axs[i, j].legend(loc='upper right', fontsize=18)
         # axs[i, j].set_xticks(np.arange(0, 25, 4))
         axs[i, j].grid(True)
         
-plt.tight_layout(rect=[0, 0.06, 1, 1])
+plt.tight_layout(rect=[0, 0.06, 1, 0.92])
 
-plt.subplots_adjust(wspace=0.25, hspace=1.2)
+plt.subplots_adjust(wspace=0.25, hspace=1.5)
 
 lines = [axs[0, 0].lines[0]]
 labels = [line.get_label() for line in lines]
 fig.legend(lines, labels, loc='lower center', fontsize=16, ncol=2, frameon=True, bbox_to_anchor=(0.5, 0))
 
+fig.suptitle(r'\textbf{Simulation Results (Uneven Terrain)}', fontsize=22, y=0.98)
+
 # save
-# if odom:
-#     plt.savefig('sim_walk_odom_h25_v10_result.pdf', format='pdf', bbox_inches='tight')
+plt.savefig('sim_uneven.pdf', format='pdf', bbox_inches='tight')
 # else:
 #     plt.savefig('sim_walk_truth_h25_v10_result.pdf', format='pdf', bbox_inches='tight')
 
